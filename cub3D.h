@@ -6,7 +6,7 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:09:49 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/10 16:34:52 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/12 23:25:09 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,20 @@
 # include <fcntl.h>
 # include <stdbool.h>
 
-
 # define NO 1
 # define SO 2
 # define WE 3
 # define EA 4
 
-# define ARG "Error.\ncub3D needs to be launched with a '*.cub'"
-# define FD "Error.\nFile cannot be open"
-# define EMPTY_FILE "Error.\nFile is empty"
-# define BAD_EXTENSION "Error.\nBad extension, please, run cub3D with a '*.cub'"
-# define BAD_TEXTURES "Error.\nBad textures, please, do something..."
-# define BAD_COLORS "Error.\nBad colors, please, do something..."
-# define BAD_RANGE "Error.\nColors are RGB[0 - 255] for each";
+# define ARG "Error.\ncub3D needs to be launched with a '*.cub'."
+# define FD "Error.\nFile cannot be open."
+# define EMPTY_FILE "Error.\nFile is empty."
+# define BAD_EXTENSION "Error.\nBad extension, please, run cub3D with a '*.cub'."
+# define BAD_TEXTURES "Error.\nBad textures, the file needs [NO, SO, WE, EA] with paths."
+# define BAD_COLORS "Error.\nBad colors, the file needs floor/sky color. Format : F/C X,X,X."
+# define BAD_RANGE "Error.\nColors are RGB[0 - 255] for each."
+# define MAP_ISNT_BOTTOM "Error.\nThe map isn't at the bottom of the file."
+# define CLEAN_FILE "Error.\nPlease, clear this file.\nThe file needs 4 textures, 2 RGB colors, and a map."
 
 typedef struct s_data
 {
@@ -52,21 +53,37 @@ typedef struct s_data
 	char	*west_texture;
 	char	*east_texture;
 
-	char	*floor_color;
-	char	*sky_color;
+	char	*floor_path;
+	char	*sky_path;
 
+	int		no_texture;
+	int		so_texture;
+	int		ea_texture;
+	int		we_texture;
+
+	bool	floor_c;
+	bool	sky_c;
 	
+	int		*sky_color;
+	int		*floor_color;
 	
-	int		*dir;
 	int		lines_into_file;
-		
+	
+	int		start_line_map;
+	int		last_line_map;
+	int		nb_lines_map;
+	
 }			t_data;
 
 // PARSING
-
-
-
-
+bool	is_texture(t_data *data, char *s);
+bool	is_color(t_data *data, char *s);
+void	get_file(t_data *data, char **argv);
+int		launch_parsing(char **argv, t_data *data);
+void	get_textures(t_data *data);
+void	get_colors(t_data *data);
+void	color_to_int(t_data *data);
+void	parsing_map(t_data *data);
 
 // GET_NEXT_LINE PART
 
@@ -77,15 +94,15 @@ char	*ft_strchr(const char *s, int c);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_strlen(const char *s);
 
-
 // UTILS PART
 
-int		print_error(char *s);
-int		get_file(t_data *data, char **argv);
+char	*withoutSpaceAtBeginning(char *s);
+void	ft_exit(char *s);
 int		lines_into_files(char *argv);
 void	free_char_tab(char **tab);
 void	print_tab(char **tab);
-int		launch_parsing(char **argv, t_data *data);
-
+void	print_int_tab(int *tab);
+char	**ft_split(char const *s, char c);
+int		big_atoi(const char *str);
 
 #endif

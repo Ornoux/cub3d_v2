@@ -6,13 +6,11 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:53:45 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/10 15:31:46 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/12 22:24:34 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3D.h"
-
-
 
 static bool	is_good_extension(char *s)
 {
@@ -35,12 +33,11 @@ int	lines_into_files(char *argv)
 	fd = open(argv, O_RDONLY);
 	lines = 0;
 	s = get_next_line(fd);
-	free(s);
 	while (s)
 	{
-		s = get_next_line(fd);
 		free(s);
 		lines++;
+		s = get_next_line(fd);
 	}
 	close(fd);
 	return (lines);
@@ -55,14 +52,16 @@ void	get_file_2(t_data *data, int fd)
 	while (i < data->lines_into_file)
 	{
 		s = get_next_line(fd);
-		data->file[i] = s;
+		data->file[i] = ft_strdup(s);
+		free(s);
 		i++;
 	}
+
 	data->file[i] = NULL;
 	return ;
 }
 
-int	get_file(t_data *data, char **argv)
+void	get_file(t_data *data, char **argv)
 {
 	int fd;
 	int	i;
@@ -70,21 +69,14 @@ int	get_file(t_data *data, char **argv)
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
 	if (is_good_extension(argv[1]) == false)
-		return (print_error(BAD_EXTENSION));
+		ft_exit(BAD_EXTENSION);
 	if (fd == -1)
-		return (print_error(FD));
+		ft_exit(FD);
 	data->lines_into_file = lines_into_files(argv[1]);
 	if (data->lines_into_file == 0)
-		return (print_error(EMPTY_FILE));
-	data->file = malloc(sizeof(char *) * data->lines_into_file + 1);
+		ft_exit(EMPTY_FILE);
+	data->file = malloc(sizeof(char *) * (data->lines_into_file + 1));
 	get_file_2(data, fd);
 	close(fd);
-	return (0);
-}
-int	launch_parsing(char **argv, t_data *data)
-{
-	if (get_file(data, argv) == 1)
-		return (1);
-	printf("Good.\n");
-	return (0);
+	return ;
 }

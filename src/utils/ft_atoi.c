@@ -1,65 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 18:14:31 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/12 21:26:12 by npatron          ###   ########.fr       */
+/*   Created: 2024/05/11 18:26:02 by npatron           #+#    #+#             */
+/*   Updated: 2024/05/12 23:33:07 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3D.h"
 
-void	ft_exit(char *s)
+bool	is_numeric(char c)
 {
-	printf("%s\n", s);
-	exit(0);
+	if (c >= '0' && c <= '9')
+		return (true);
+	return (false);
 }
 
-void	print_tab(char **tab)
+int	big_atoi(const char *str)
 {
+	int res;
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	res = 0;
+	while (is_numeric(str[i]) == false)
 	{
-		printf("%s", tab[i]);
+		if (str[i] != ' ' && str[i] != '\t' && str[i])
+		{
+			printf("OUI");
+			return (-5);
+		}
 		i++;
 	}
-	return ;	
-}
-
-void	print_int_tab(int *tab)
-{
-	int	i;
-	 
-	i = 0;
-	while (i < 3)
+	while (is_numeric(str[i]) == true)
 	{
-		printf("%d,", tab[i]);
+		res = (res * 10) + str[i] - '0';
 		i++;
 	}
-	return ;	
-}
-
-
-void	free_char_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
+	while (str[i])
 	{
-		free(tab[i]);
+		if (is_numeric(str[i]) == true)
+			return (-5);
 		i++;
 	}
-	free(tab);
-	return ;	
+	if (res > 255)
+		return (-5);
+	return (res);
 }
-
-
-
-
-
