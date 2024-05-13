@@ -6,7 +6,7 @@
 #    By: npatron <npatron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 18:09:47 by npatron           #+#    #+#              #
-#    Updated: 2024/05/12 20:49:05 by npatron          ###   ########.fr        #
+#    Updated: 2024/05/13 23:30:08 by npatron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = cub3D
 SOURCES = src/main.c \
 		  src/parsing/get_file.c \
 		  src/parsing/get_map.c \
+		  src/parsing/utils_get_map.c \
 		  src/parsing/run_parsing.c \
 		  src/parsing/get_textures.c \
 		  src/utils/utils.c \

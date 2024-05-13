@@ -6,7 +6,7 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:09:49 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/12 23:25:09 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/14 00:38:28 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define BAD_RANGE "Error.\nColors are RGB[0 - 255] for each."
 # define MAP_ISNT_BOTTOM "Error.\nThe map isn't at the bottom of the file."
 # define CLEAN_FILE "Error.\nPlease, clear this file.\nThe file needs 4 textures, 2 RGB colors, and a map."
-
+# define NUMBER_MISSING "Error.\nIs missing numbers into your colors F/C"
 typedef struct s_data
 {
 	char	player_direction;
@@ -68,7 +68,7 @@ typedef struct s_data
 	int		*floor_color;
 	
 	int		lines_into_file;
-	
+	int		max_len_line;
 	int		start_line_map;
 	int		last_line_map;
 	int		nb_lines_map;
@@ -84,6 +84,11 @@ void	get_textures(t_data *data);
 void	get_colors(t_data *data);
 void	color_to_int(t_data *data);
 void	parsing_map(t_data *data);
+void	number_into_path(char *s);
+char	*fill_map_spaces(int n, char *s);
+char	*space_line(t_data *data);
+
+
 
 // GET_NEXT_LINE PART
 
@@ -104,5 +109,8 @@ void	print_tab(char **tab);
 void	print_int_tab(int *tab);
 char	**ft_split(char const *s, char c);
 int		big_atoi(const char *str);
+bool	is_numeric(char c);
+int		char_tab_len(char **tab);
+void	find_max_len(t_data *data);
 
 #endif

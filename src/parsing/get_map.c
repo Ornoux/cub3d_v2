@@ -6,11 +6,35 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:51:34 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/12 21:37:06 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/14 00:41:29 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3D.h"
+
+void	get_map(t_data *data)
+{
+	int	len_map;
+	int i;
+	int	j;
+	
+	i = data->start_line_map - 1;
+	j = 1;
+	len_map = data->lines_into_file - data->start_line_map + 2;
+	data->map = malloc(sizeof(char *) * len_map + 2);
+	data->map[0] = space_line(data);
+	while (data->file[i] && i < len_map)
+	{
+		data->map[j] = fill_map_spaces(data->max_len_line, data->file[i]);
+		printf("%s", data->map[j]);
+		i++;
+		j++;
+	}
+	j++;
+	data->map[j] = space_line(data);
+	j++;
+	data->map[j] = NULL;
+}
 
 bool	is_empty_line(char *s)
 {
@@ -49,7 +73,7 @@ void	get_infos_map(t_data *data)
 		{
 			if (is_first_line_map(data->file[i]) == true)
 			{
-				data->start_line_map = i;
+				data->start_line_map = i + 1;
 				break;
 			}
 		}
@@ -66,4 +90,9 @@ void	get_infos_map(t_data *data)
 void	parsing_map(t_data *data)
 {
 	get_infos_map(data);
+	find_max_len(data);
+	get_map(data);
+	printf("\n\n\n\n");
+	print_tab(data->map);
+
 }

@@ -6,7 +6,7 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:18:44 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/12 23:35:23 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/13 11:46:20 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	split_colors(t_data *data)
 	i = 0;
 	tab_sky = ft_split(data->sky_path, ',');
 	tab_floor = ft_split(data->floor_path, ',');
+	if (char_tab_len(tab_sky) != 3 || char_tab_len(tab_floor) != 3)
+		ft_exit(NUMBER_MISSING);
 	free(data->sky_path);
 	free(data->floor_path);
 	data->floor_color = malloc(sizeof(int) * 3);
@@ -84,8 +86,6 @@ void	color_to_int(t_data *data)
 		onlyDigitComma(data->sky_path) == false)
 		return ft_exit(BAD_COLORS);
 	split_colors(data);
-		print_int_tab(data->floor_color);
-	print_int_tab(data->sky_color);
 	if (check_range(data->sky_color) == false || check_range(data->floor_color) == false)
 		ft_exit(BAD_RANGE);
 	return ;

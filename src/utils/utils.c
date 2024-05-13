@@ -6,7 +6,7 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:14:31 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/12 21:26:12 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/13 23:56:56 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ void	print_int_tab(int *tab)
 	return ;	
 }
 
+int	char_tab_len(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
 
 void	free_char_tab(char **tab)
 {
