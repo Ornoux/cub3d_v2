@@ -6,7 +6,7 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 16:22:48 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/13 11:46:44 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/14 17:46:15 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ void	get_colors(t_data *data)
 		return ;
 	}
 	else
-		ft_exit(BAD_COLORS);
+		ft_exit(data, BAD_COLORS);
 }

@@ -6,7 +6,7 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:53:45 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/12 22:24:34 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/14 17:46:15 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ void	get_file(t_data *data, char **argv)
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
 	if (is_good_extension(argv[1]) == false)
-		ft_exit(BAD_EXTENSION);
+		ft_exit(data, BAD_EXTENSION);
 	if (fd == -1)
-		ft_exit(FD);
+		ft_exit(data, FD);
 	data->lines_into_file = lines_into_files(argv[1]);
 	if (data->lines_into_file == 0)
-		ft_exit(EMPTY_FILE);
+		ft_exit(data, EMPTY_FILE);
 	data->file = malloc(sizeof(char *) * (data->lines_into_file + 1));
 	get_file_2(data, fd);
 	close(fd);

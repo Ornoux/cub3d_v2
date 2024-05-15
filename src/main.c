@@ -6,7 +6,7 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:09:51 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/12 23:08:26 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:38:46 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	init_data(t_data *data)
 	data->ea_texture = 0;
 	data->floor_path = NULL;
 	data->sky_path = NULL;
+	data->colors = NULL;
+	data->textures = NULL;
 	data->north_texture = NULL;
 	data->south_texture = NULL;
 	data->east_texture = NULL;
@@ -31,16 +33,24 @@ void	init_data(t_data *data)
 	data->start_line_map = 0;
 	data->last_line_map = 0;
 	data->nb_lines_map = 0;
+	data->player = 0;
+	data->posi_x = 0;
+	data->posi_y = 0;
+	data->rota = 0;
+	data->char_player = 0;
+	
 }
 
 void	free_struct(t_data *data)
 {
 	if (data->file)
-	 	free_char_tab(data->file);
+	 	free_char_tab(data->file);	
+	if (data->map)
+		free_char_tab(data->map);		
 	if (data->floor_color)
 	 	free(data->floor_color);
 	if (data->sky_color)
-	 	free(data->sky_color);
+	 	free(data->sky_color);		
 	if (data->north_texture)
 		free(data->north_texture);
 	if (data->south_texture)
@@ -65,6 +75,11 @@ int	main(int argc, char **av)
 	}
 	init_data(data);
 	launch_parsing(av, data);
+	data->tmp_x = (int)data->p.pos_x;
+	data->tmp_y = (int)data->p.pos_y;
+
+	init_raycast(data);
+	mlx(data);
 	free_struct(data);
 	return (0);
 }

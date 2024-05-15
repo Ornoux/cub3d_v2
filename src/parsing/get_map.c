@@ -6,7 +6,7 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:51:34 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/14 00:41:29 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/14 18:20:33 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,22 @@
 
 void	get_map(t_data *data)
 {
-	int	len_map;
-	int i;
-	int	j;
-	
-	i = data->start_line_map - 1;
-	j = 1;
-	len_map = data->lines_into_file - data->start_line_map + 2;
-	data->map = malloc(sizeof(char *) * len_map + 2);
-	data->map[0] = space_line(data);
-	while (data->file[i] && i < len_map)
+	int		i;
+	int		j;
+
+	data->map = ft_calloc(sizeof(char *), ((data->lines_into_file - data->start_line_map) + 4));
+	i = 1;
+	j = data->start_line_map - 1;
+	data->map[0] = line(data->max_len_line + 1);
+	while (j < data->lines_into_file)
 	{
-		data->map[j] = fill_map_spaces(data->max_len_line, data->file[i]);
-		printf("%s", data->map[j]);
+		data->map[i] = copy_string_map(data->file[j], data->max_len_line + 1);
 		i++;
 		j++;
 	}
-	j++;
-	data->map[j] = space_line(data);
-	j++;
-	data->map[j] = NULL;
+	data->map[i] = line(data->max_len_line + 1);
+	i++;
+	data->map[i] = NULL;
 }
 
 bool	is_empty_line(char *s)
@@ -41,7 +37,6 @@ bool	is_empty_line(char *s)
 	if (s[0] == '\n')
 		return (true);
 	return (false);
-
 }
 
 bool	is_first_line_map(char *s)
@@ -51,7 +46,9 @@ bool	is_first_line_map(char *s)
 	i = 0;
 	while (s[i] != '\n')
 	{
-		if (s[i] != '1')
+		if (s[i] != '1' && s[i] != '0' && s[i] != 'N'
+			&& s[i] != 'W' && s[i] != 'E' && s[i] != 'S'
+			&& s[i] != ' ' && s[i] != '\t')
 			return (false);
 		i++;
 	}
@@ -80,9 +77,9 @@ void	get_infos_map(t_data *data)
 		i++;
 	}
 	if (count < 6)
-		ft_exit(MAP_ISNT_BOTTOM);
-	else if (count > 6)
-		ft_exit(CLEAN_FILE);
+		ft_exit(data, MAP_ISNT_BOTTOM);
+	else if (data->start_line_map == 0)
+		ft_exit(data, NO_MAP);
 	else
 		return ;
 }
@@ -90,9 +87,8 @@ void	get_infos_map(t_data *data)
 void	parsing_map(t_data *data)
 {
 	get_infos_map(data);
+	file_is_clean(data);
 	find_max_len(data);
 	get_map(data);
-	printf("\n\n\n\n");
-	print_tab(data->map);
-
+	is_valid_map(data);
 }

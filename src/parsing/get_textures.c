@@ -6,11 +6,22 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 16:22:48 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/12 22:08:59 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:46:24 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3D.h"
+
+void	texture_is_xpm(t_data *data, char *s)
+{
+	int	len;
+
+	len = ft_strlen_n(s);
+	if (s[len - 1] != 'm' || s[len - 2] != 'p'
+		|| s[len - 3] != 'x' || s[len - 4] != '.')
+		ft_exit(data, XPM);
+	return ;
+}
 
 char	*withoutSpaceAtBeginning(char *s)
 {
@@ -51,13 +62,25 @@ bool	is_texture(t_data *data, char *s)
 void	attribute_texture(t_data *data, char *s, char *s2)
 {
 	if ((s[0] == 'N' && s[1] == 'O') && (s[2] == ' ' || s[2] == '\t'))
-		data->north_texture = ft_strdup(s2);
+	{
+		data->north_texture = s2;
+		texture_is_xpm(data, data->north_texture);
+	}
 	else if ((s[0] == 'S' && s[1] == 'O') && (s[2] == ' ' || s[2] == '\t'))
-		data->south_texture = ft_strdup(s2);
+	{
+		data->south_texture = s2;
+		texture_is_xpm(data, data->south_texture);
+	}
 	else if ((s[0] == 'W' && s[1] == 'E') && (s[2] == ' ' || s[2] == '\t'))
-		data->west_texture = ft_strdup(s2);
+	{
+		data->west_texture = s2;
+		texture_is_xpm(data, data->west_texture);
+	}
 	else if ((s[0] == 'E' && s[1] == 'A') && (s[2] == ' ' || s[2] == '\t'))
-		data->east_texture = ft_strdup(s2);
+	{
+		data->east_texture = s2;
+		texture_is_xpm(data, data->east_texture);
+	}
 	else
 		return ;
 }
@@ -87,12 +110,16 @@ void	get_textures(t_data *data)
 {
 	int		i;
 	int		j;
+	char	*tmp;
 
 	i = 0;
 	j = 0;
 	data->textures = malloc(sizeof(char *) * 5);
 	while (data->file[i])
 	{
+		tmp = withoutSpaceAtBeginning(data->file[i]);
+		free(data->file[i]);
+		data->file[i] = tmp;
 		if (is_texture(data, data->file[i]) == true)
 		{
 			data->textures[j] = ft_strdup(data->file[i]);
@@ -109,5 +136,5 @@ void	get_textures(t_data *data)
 		return ;
 	}
 	else
-		ft_exit(BAD_TEXTURES);
+		ft_exit(data, BAD_TEXTURES);
 }

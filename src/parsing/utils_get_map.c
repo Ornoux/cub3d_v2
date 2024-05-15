@@ -6,11 +6,25 @@
 /*   By: npatron <npatron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 17:03:29 by npatron           #+#    #+#             */
-/*   Updated: 2024/05/14 00:39:48 by npatron          ###   ########.fr       */
+/*   Updated: 2024/05/14 17:46:15 by npatron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3D.h"
+
+bool	empty_line(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] != ' ' && s[i] != '\t' && s[i] != '\n')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 void	find_max_len(t_data *data)
 {
@@ -44,7 +58,7 @@ char	*line(int n)
 	return (s);
 }
 
-char	*fill_map_spaces(int n, char *s)
+char	*copy_string_map(char *s, int n)
 {
 	char	*dest;
 	int		i;
@@ -53,7 +67,7 @@ char	*fill_map_spaces(int n, char *s)
 	dest = malloc(sizeof(char) * (n + 2) + 1);
 	i = 1;
 	j = 0;
-	dest[0] = 'P';
+	dest[0] = ' ';
 	while (s[i])
 	{
 		dest[i] = s[j];
@@ -62,25 +76,24 @@ char	*fill_map_spaces(int n, char *s)
 	}
 	while (i <= (n + 1))
 	{
-		dest[i] = 'P';
+		dest[i] = ' ';
 		i++;
 	}
 	dest[i] = '\0';
 	return (dest);
 }
 
-char	*space_line(t_data *data)
+void	file_is_clean(t_data *data)
 {
-	char	*res;
-	int		i;
+	int	i;
 
 	i = 0;
-	res = malloc(sizeof(char) * (data->max_len_line + 3));
-	while (i < data->max_len_line)
+	while (i < data->start_line_map - 1)
 	{
-		res[i] = 'P';
+		if (is_texture(data, data->file[i]) == false && is_color(data, data->file[i]) == false
+			&& empty_line(data->file[i]) == false)
+			ft_exit(data, FILE_NO_CLEAN);
 		i++;
 	}
-	res[i] = '\0';
-	return (res);
+	return ;
 }
